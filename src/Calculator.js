@@ -1,41 +1,44 @@
-import React, { useState } from 'react'
-import './Calculator.css'
+import React, { useState } from "react";
+import "./Calculator.css";
 
 export function Calculator() {
   const [row, setRow] = useState([
-    { name: '示例1', price: 25, quantity: 3, total: 75 },
-    { name: '示例2', price: 32, quantity: 4, total: 128 },
-  ])
+    { name: "示例1", price: 25, quantity: 3, total: 75 },
+    { name: "示例2", price: 32, quantity: 4, total: 128 }
+  ]);
 
   function handleName(e, index) {
-    row[index].name = e.target.value
-    setRow([...row])
+    row[index].name = e.target.value;
+    setRow([...row]);
   }
 
   function handlePrice(e, index) {
-    row[index].price = e.target.value
-    setRow([...row])
+    row[index].price = e.target.value;
+    setRow([...row]);
   }
 
   function handleQuantity(e, index) {
-    row[index].quantity = e.target.value
-    row[index].total = row[index].quantity * row[index].price
-    setRow([...row])
+    row[index].quantity = e.target.value;
+    row[index].total = row[index].quantity * row[index].price;
+    setRow([...row]);
   }
 
+  // 函数名要有意义，而且最好是一个动词，描述这个函数是干什么用的
+  // 这里更加合适使用`reduce`来计算
   function toSum(row) {
-    let sum = 0
+    let sum = 0;
     row.forEach(item => {
-      sum += item.total
-    })
-    return sum
+      sum += item.total;
+    });
+    return sum;
   }
 
   function handleAdd() {
-    row.push({ name: '', price: '', quantity: '', total: '' })
-    setRow([...row])
+    row.push({ name: "", price: "", quantity: "", total: "" });
+    setRow([...row]);
   }
 
+  // Table是一个组件，就不要放在Calculator里面了，可以单独提取出来
   function Table() {
     return (
       <div className="table">
@@ -70,7 +73,7 @@ export function Calculator() {
 
                 <span className="cell">{item.total}</span>
               </div>
-            )
+            );
           })}
         </div>
         <div className="sum">
@@ -78,8 +81,9 @@ export function Calculator() {
           <span>{toSum(row)}</span>
         </div>
       </div>
-    )
+    );
   }
+
   return (
     <div className="wrapper">
       <h1>动态收银表</h1>
@@ -89,5 +93,5 @@ export function Calculator() {
         <span>Add Product</span>
       </div>
     </div>
-  )
+  );
 }

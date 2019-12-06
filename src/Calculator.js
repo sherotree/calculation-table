@@ -31,9 +31,9 @@ export function Calculator() {
   }
 
   function total(row) {
-    row.forEach(item => {
-      setSum(sum + item.total)
-    })
+    for (let i = 0; i < row.length; i++) {
+      setSum(sum + row.total)
+    }
   }
   function handleAdd() {
     row.push({ name: '', price: '', quantity: '', total: '' })

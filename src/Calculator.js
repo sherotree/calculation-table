@@ -1,42 +1,42 @@
 import React, { useState } from 'react'
 
 export function Calculator() {
-  const [total, setTotal] = useState(0)
+  const [sum, setSum] = useState(0)
   const [row, setRow] = useState([
     { name: '示例1', price: 25, quantity: 3, total: 75 },
     { name: '示例2', price: 32, quantity: 4, total: 128 },
   ])
 
-  function handlePrice(e, index) {
-    setRow(e.target.value)
-    console.log(row.price)
+  console.log(row, 22)
+
+  function handleName(e, index) {
+    row[index].name = e.target.value
+    setRow([...row])
   }
 
-  function handleQuantity() {}
+  function handlePrice(e, index) {
+    row[index].price = e.target.value
+    setRow([...row])
+  }
 
-  function handleTotal() {}
+  function handleQuantity(e, index) {
+    row[index].quantity = e.target.value
+    row[index].total = row[index].quantity * row[index].price
+    setSum(total(row))
+    setRow([...row])
+  }
 
+  function handleTotal() {
+    setRow([...row])
+  }
+
+  function total(row) {
+    row.forEach(item => {
+      setSum(sum + item.total)
+    })
+  }
   function handleAdd() {
-    row.push(
-      <div>
-        <input placeholder="产品.." value={row.name} />
-        <input
-          placeholder="价格.."
-          value={row.price}
-          onChange={e => handlePrice(e)}
-        />
-        <input
-          placeholder="数量.."
-          value={row.quantity}
-          onChange={e => handleQuantity(e)}
-        />
-        <input
-          placeholder="合计.."
-          value={row.total}
-          onChange={e => handleTotal(e)}
-        />
-      </div>,
-    )
+    row.push({ name: '', price: '', quantity: '', total: '' })
     setRow([...row])
   }
 
@@ -52,11 +52,27 @@ export function Calculator() {
         <div>
           {row.map((item, index) => {
             return (
-              <div>
-                <input placeholder="产品.." value={item.name} />
-                <input placeholder="价格.." value={item.price} />
-                <input placeholder="数量.." value={item.quantity} />
-                <input placeholder="合计.." value={item.total} />
+              <div key={index}>
+                <input
+                  placeholder="产品.."
+                  value={item.name}
+                  onChange={e => handleName(e, index)}
+                />
+                <input
+                  placeholder="价格.."
+                  value={item.price}
+                  onChange={e => handlePrice(e, index)}
+                />
+                <input
+                  placeholder="数量.."
+                  value={item.quantity}
+                  onChange={e => handleQuantity(e, index)}
+                />
+                <input
+                  placeholder="合计.."
+                  value={item.total}
+                  onChange={handleTotal}
+                />
               </div>
             )
           })}
@@ -70,7 +86,7 @@ export function Calculator() {
       <Table />
       <div>
         <span>总计:</span>
-        <span>{total}</span>
+        <span>{sum}</span>
       </div>
       <div>
         <button onClick={handleAdd}>+</button>
